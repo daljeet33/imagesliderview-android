@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ImageSliderView.iml" filepath="$PROJECT_DIR$/ImageSliderView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagesliderview/imagesliderview.iml" filepath="$PROJECT_DIR$/imagesliderview/imagesliderview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagesliderview/imagesliderview.iml" filepath="$PROJECT_DIR$/imagesliderview/imagesliderview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagesliderview-android.iml" filepath="$PROJECT_DIR$/imagesliderview-android.iml" />
+    </modules>
+  </component>
+</project>
