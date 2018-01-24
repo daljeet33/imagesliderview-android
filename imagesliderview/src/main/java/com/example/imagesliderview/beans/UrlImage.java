@@ -26,14 +26,6 @@ public class UrlImage extends SliderImage {
         placeHolder=in.readInt();
     }
 
-    public int getPlaceHolder() {
-        return placeHolder;
-    }
-
-    public void setPlaceHolder(int placeHolder) {
-        this.placeHolder = placeHolder;
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(url);

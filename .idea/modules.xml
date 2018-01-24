@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Desktop-imagesliderview.iml" filepath="$PROJECT_DIR$/Desktop-imagesliderview.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageSliderView.iml" filepath="$PROJECT_DIR$/ImageSliderView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imagesliderview/imagesliderview.iml" filepath="$PROJECT_DIR$/imagesliderview/imagesliderview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imagesliderview/imagesliderview.iml" filepath="$PROJECT_DIR$/imagesliderview/imagesliderview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imagesliderview-android.iml" filepath="$PROJECT_DIR$/imagesliderview-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagesliderview/imagesliderview-imagesliderview.iml" filepath="$PROJECT_DIR$/imagesliderview/imagesliderview-imagesliderview.iml" />
     </modules>
   </component>
 </project>

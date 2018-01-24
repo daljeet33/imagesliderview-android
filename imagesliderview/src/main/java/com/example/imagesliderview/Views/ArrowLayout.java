@@ -1,12 +1,9 @@
 package com.example.imagesliderview.Views;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.imagesliderview.R;
 

@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -33,114 +32,114 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
     Context context;
     private AppCompatActivity userActivity;
     private ViewPager viewPager;
-    private ArrayList<SliderImage> sliderImagesList=new ArrayList<>();
+    private ArrayList<SliderImage> sliderImagesList = new ArrayList<>();
     private ArrayList<SliderImage> pendingImagesList = new ArrayList<>();
-    private Boolean showIndicator,infiniteView,showArrow,setupFinished=false;
-    private int indicatorSize,timeInterval;
-    private int placeholder=0;
-    private int leftArrowId,rightArrowId;
+    private Boolean showIndicator, infiniteView, showArrow, setupFinished = false;
+    private int indicatorSize, timeInterval;
+    private int placeholder = 0;
+    private int leftArrowId, rightArrowId;
     private IndicatorLayout indicatorLayout;
     private Timer timer;
-    ArrowLayout leftArrowLayout,rightArrowLayout;
+    ArrowLayout leftArrowLayout, rightArrowLayout;
 
     public SliderViewLayout(Context context) {
         super(context);
-        this.context=context;
+        this.context = context;
     }
 
     public SliderViewLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context=context;
+        this.context = context;
         getAttributes(attrs);
     }
 
     public SliderViewLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context=context;
+        this.context = context;
         getAttributes(attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public SliderViewLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        this.context=context;
+        this.context = context;
         getAttributes(attrs);
     }
 
-    private void getAttributes(AttributeSet attrs){
+    private void getAttributes(AttributeSet attrs) {
         TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.SliderViewLayout);
-        timeInterval= attrArray.getInt(R.styleable.SliderViewLayout_timeInterval,2000);
-        showIndicator=attrArray.getBoolean(R.styleable.SliderViewLayout_showIndicator,true);
-        indicatorSize=attrArray.getDimensionPixelSize(R.styleable.SliderViewLayout_indicatorSize,10);
-        infiniteView=attrArray.getBoolean(R.styleable.SliderViewLayout_infiniteview,true);
-        showArrow=attrArray.getBoolean(R.styleable.SliderViewLayout_showarrow,false);
+        timeInterval = attrArray.getInt(R.styleable.SliderViewLayout_timeInterval, 2000);
+        showIndicator = attrArray.getBoolean(R.styleable.SliderViewLayout_showIndicator, true);
+        indicatorSize = attrArray.getDimensionPixelSize(R.styleable.SliderViewLayout_indicatorSize, 10);
+        infiniteView = attrArray.getBoolean(R.styleable.SliderViewLayout_infiniteview, true);
+        showArrow = attrArray.getBoolean(R.styleable.SliderViewLayout_showarrow, false);
         attrArray.recycle();
         setLayout();
     }
 
-    private void setLayout(){
-                if (getContext() instanceof AppCompatActivity) {
-                    userActivity = (AppCompatActivity) getContext();
-                } else {
-                    throw new RuntimeException("Activity must extend AppCompatActivity");
-                }
-                viewPager = new ViewPager(getContext());
-                viewPager.setId(View.generateViewId());
+    private void setLayout() {
+        if (getContext() instanceof AppCompatActivity) {
+            userActivity = (AppCompatActivity) getContext();
+        } else {
+            throw new RuntimeException("Activity must extend AppCompatActivity");
+        }
+        viewPager = new ViewPager(getContext());
+        viewPager.setId(View.generateViewId());
 
-                viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                viewPager.addOnPageChangeListener(SliderViewLayout.this);
-                addView(viewPager);
-                if (showIndicator) {
-                    indicatorLayout = new IndicatorLayout(getContext() ,indicatorSize);
-                    addView(indicatorLayout);
-                }
+        viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        viewPager.addOnPageChangeListener(SliderViewLayout.this);
+        addView(viewPager);
+        if (showIndicator) {
+            indicatorLayout = new IndicatorLayout(getContext(), indicatorSize);
+            addView(indicatorLayout);
+        }
 
-                //adding arrows
-                if(showArrow){
-                    leftArrowLayout=new ArrowLayout(getContext(), Gravity.LEFT);
-                    leftArrowLayout.setId(View.generateViewId());
-                    leftArrowId=leftArrowLayout.getId();
-                    addView(leftArrowLayout);
-                    rightArrowLayout=new ArrowLayout(getContext(), Gravity.RIGHT);
-                    rightArrowLayout.setId(View.generateViewId());
-                    rightArrowId=rightArrowLayout.getId();
-                    addView(rightArrowLayout);
-                    leftArrowLayout.setOnClickListener(this);
-                    rightArrowLayout.setOnClickListener(this);
-                }
-                startTimer();
-                setupFinished = true;
-                setSliderImages(pendingImagesList,placeholder);
+        //adding arrows
+        if (showArrow) {
+            leftArrowLayout = new ArrowLayout(getContext(), Gravity.LEFT);
+            leftArrowLayout.setId(View.generateViewId());
+            leftArrowId = leftArrowLayout.getId();
+            addView(leftArrowLayout);
+            rightArrowLayout = new ArrowLayout(getContext(), Gravity.RIGHT);
+            rightArrowLayout.setId(View.generateViewId());
+            rightArrowId = rightArrowLayout.getId();
+            addView(rightArrowLayout);
+            leftArrowLayout.setOnClickListener(this);
+            rightArrowLayout.setOnClickListener(this);
+        }
+        startTimer();
+        setupFinished = true;
+        setSliderImages(pendingImagesList, placeholder);
     }
 
-    public void setSliderImages(ArrayList<SliderImage> sliderImagesList,int placeholder){
-        if(setupFinished) {
-            this.sliderImagesList=sliderImagesList;
-            for(int i=0;i<sliderImagesList.size();i++){
-                if(indicatorLayout!=null){
+    public void setSliderImages(ArrayList<SliderImage> sliderImagesList, int placeholder) {
+        if (setupFinished) {
+            this.sliderImagesList = sliderImagesList;
+            for (int i = 0; i < sliderImagesList.size(); i++) {
+                if (indicatorLayout != null) {
                     indicatorLayout.onImageAdded();
                 }
             }
             ImageAdapter imageAdapter;
-            imageAdapter=new ImageAdapter(userActivity.getSupportFragmentManager(),sliderImagesList,placeholder,infiniteView);
+            imageAdapter = new ImageAdapter(userActivity.getSupportFragmentManager(), sliderImagesList, placeholder, infiniteView);
             viewPager.setAdapter(imageAdapter);
 
-            if(infiniteView){
+            if (infiniteView) {
                 viewPager.setCurrentItem(1, false);
-                if(indicatorLayout!=null){
+                if (indicatorLayout != null) {
                     indicatorLayout.onImageChanged(0);
                 }
-            }else{
+            } else {
                 indicatorLayout.onImageChanged(viewPager.getCurrentItem());
             }
         } else {
-            this.placeholder=placeholder;
+            this.placeholder = placeholder;
             pendingImagesList.addAll(sliderImagesList);
         }
     }
 
     private void startTimer() {
-        Log.e("status","timer has been started");
+        Log.e("status", "timer has been started");
         if (timeInterval > 0) {
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -149,7 +148,7 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
                     ((AppCompatActivity) getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(infiniteView){
+                            if (infiniteView) {
                                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                             }
                         }
@@ -164,7 +163,7 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
             timer.cancel();
             timer.purge();
             timer = null;
-            Log.e("status","timer has been stopped");
+            Log.e("status", "timer has been stopped");
         }
     }
 
@@ -174,21 +173,21 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
 
     @Override
     public void onPageSelected(int position) {
-        if(infiniteView){
+        if (infiniteView) {
             updateSlider(position);
-        } else{
-          indicatorLayout.onImageChanged(position);
+        } else {
+            indicatorLayout.onImageChanged(position);
         }
-        }
+    }
 
-    private void updateSlider(int position){
+    private void updateSlider(int position) {
         if (position == 0) {
             postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     viewPager.setCurrentItem(sliderImagesList.size(), false);
                 }
-            },100);
+            }, 100);
             if (indicatorLayout != null) {
                 indicatorLayout.onImageChanged(sliderImagesList.size() - 1);
             }
@@ -217,37 +216,37 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
                 stopTimer();
                 break;
             case ViewPager.SCROLL_STATE_IDLE:
-                    startTimer();
+                startTimer();
                 break;
         }
     }
 
 
-    public void setCustomIndicators(Drawable selectedIndicator, Drawable unselectedIndicator){
-        indicatorLayout.changeIndicator(selectedIndicator,unselectedIndicator);
-        if(infiniteView){
+    public void setCustomIndicators(Drawable selectedIndicator, Drawable unselectedIndicator) {
+        indicatorLayout.changeIndicator(selectedIndicator, unselectedIndicator);
+        if (infiniteView) {
             updateSlider(viewPager.getCurrentItem());
-        }else{
+        } else {
             indicatorLayout.onImageChanged(viewPager.getCurrentItem());
         }
 
     }
 
-    public void setCustomArrows(int leftArrow, int rightArrow){
-        if(leftArrowLayout!=null){
+    public void setCustomArrows(int leftArrow, int rightArrow) {
+        if (leftArrowLayout != null) {
             removeView(leftArrowLayout);
         }
-        if(rightArrowLayout!=null){
+        if (rightArrowLayout != null) {
             removeView(rightArrowLayout);
         }
-        leftArrowLayout=new ArrowLayout(getContext(),Gravity.LEFT);
+        leftArrowLayout = new ArrowLayout(getContext(), Gravity.LEFT);
         leftArrowLayout.setId(View.generateViewId());
-        leftArrowId=leftArrowLayout.getId();
+        leftArrowId = leftArrowLayout.getId();
         leftArrowLayout.changeArrows(leftArrow);
         addView(leftArrowLayout);
-        rightArrowLayout=new ArrowLayout(getContext(),Gravity.RIGHT);
+        rightArrowLayout = new ArrowLayout(getContext(), Gravity.RIGHT);
         rightArrowLayout.setId(View.generateViewId());
-        rightArrowId=rightArrowLayout.getId();
+        rightArrowId = rightArrowLayout.getId();
         rightArrowLayout.changeArrows(rightArrow);
         addView(rightArrowLayout);
         leftArrowLayout.setOnClickListener(this);
@@ -256,21 +255,21 @@ public class SliderViewLayout extends FrameLayout implements ViewPager.OnPageCha
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==leftArrowId){
-            viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
-            if(infiniteView){
+        if (view.getId() == leftArrowId) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            if (infiniteView) {
                 stopTimer();
                 updateSlider(viewPager.getCurrentItem());
-            }else{
+            } else {
                 indicatorLayout.onImageChanged(viewPager.getCurrentItem());
             }
 
-        }else if(view.getId()==rightArrowId){
-            viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
-            if(infiniteView){
+        } else if (view.getId() == rightArrowId) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            if (infiniteView) {
                 stopTimer();
                 updateSlider(viewPager.getCurrentItem());
-            }else{
+            } else {
                 indicatorLayout.onImageChanged(viewPager.getCurrentItem());
             }
         }

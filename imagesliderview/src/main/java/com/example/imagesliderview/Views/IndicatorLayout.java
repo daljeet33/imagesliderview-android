@@ -17,83 +17,82 @@ import java.util.ArrayList;
 
 public class IndicatorLayout extends LinearLayout implements OnImageChangeListener {
     private Context context;
-    private int indicatorSize,imgCount;
-    private ArrayList<IndicatorView> indicatorList=new ArrayList<>();
-    private Drawable customSelectedIndicator,customUnselectedIndicator;
+    private int indicatorSize, imgCount;
+    private ArrayList<IndicatorView> indicatorList = new ArrayList<>();
+    private Drawable customSelectedIndicator, customUnselectedIndicator;
 
     public IndicatorLayout(Context context, int indicatorSize) {
         super(context);
         this.context = context;
         this.indicatorSize = indicatorSize;
-        customUnselectedIndicator=null;
-        customSelectedIndicator=null;
+        customUnselectedIndicator = null;
+        customSelectedIndicator = null;
         setLayout();
     }
 
-    private void setLayout(){
+    private void setLayout() {
         setOrientation(LinearLayout.HORIZONTAL);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, indicatorSize * 2);
-        layoutParams.gravity = Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM ;
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
         layoutParams.setMargins(0, 4, 0, 4);
         setLayoutParams(layoutParams);
     }
 
     @Override
     public void onImageChanged(int currentImgPos) {
-        for(int i=0;i<indicatorList.size();i++){
-            if(i==currentImgPos){
+        for (int i = 0; i < indicatorList.size(); i++) {
+            if (i == currentImgPos) {
                 indicatorList.get(i).onSelectedChange(true);
-            }else{
+            } else {
                 indicatorList.get(i).onSelectedChange(false);
             }
         }
     }
 
 
-    private void addIndicator(){
+    private void addIndicator() {
         IndicatorView indicatorView;
-        if(customSelectedIndicator!=null && customUnselectedIndicator!=null){
-        indicatorView=new IndicatorView(context,indicatorSize){
-            @Override
-            public void onSelectedChange(boolean isSelected) {
-                super.onSelectedChange(isSelected);
-                if(isSelected){
-                setBackground(customSelectedIndicator);}
-                else{
-                setBackground(customUnselectedIndicator);
+        if (customSelectedIndicator != null && customUnselectedIndicator != null) {
+            indicatorView = new IndicatorView(context, indicatorSize) {
+                @Override
+                public void onSelectedChange(boolean isSelected) {
+                    super.onSelectedChange(isSelected);
+                    if (isSelected) {
+                        setBackground(customSelectedIndicator);
+                    } else {
+                        setBackground(customUnselectedIndicator);
+                    }
                 }
-            }
-        };
-        indicatorView.setBackground(customUnselectedIndicator);
-        indicatorList.add(indicatorView);
-        addView(indicatorView);
-        }else
-            {
-            indicatorView=new IndicatorView(context,indicatorSize);
+            };
+            indicatorView.setBackground(customUnselectedIndicator);
+            indicatorList.add(indicatorView);
+            addView(indicatorView);
+        } else {
+            indicatorView = new IndicatorView(context, indicatorSize);
             indicatorList.add(indicatorView);
             addView(indicatorView);
         }
     }
 
-    public void changeIndicator(Drawable selectedIndicator,Drawable unselectedIndicator){
-     customSelectedIndicator=selectedIndicator;
-     customUnselectedIndicator=unselectedIndicator;
-     //reset the indicatorlist everytime the user specifies a custom indicator
-     setImages(imgCount);
+    public void changeIndicator(Drawable selectedIndicator, Drawable unselectedIndicator) {
+        customSelectedIndicator = selectedIndicator;
+        customUnselectedIndicator = unselectedIndicator;
+        //reset the indicatorlist everytime the user specifies a custom indicator
+        setImages(imgCount);
     }
 
-    public void setImages(int imgCount){
+    public void setImages(int imgCount) {
         removeAllViews();
         indicatorList.clear();
-        this.imgCount=0;
-        for(int i=0;i<imgCount;i++){
+        this.imgCount = 0;
+        for (int i = 0; i < imgCount; i++) {
             onImageAdded();
         }
-        this.imgCount=imgCount;
+        this.imgCount = imgCount;
     }
 
-    public void onImageAdded(){
-        this.imgCount+=1;
+    public void onImageAdded() {
+        this.imgCount += 1;
         addIndicator();
     }
 

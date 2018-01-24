@@ -23,17 +23,17 @@ public class IndicatorView extends android.support.v7.widget.AppCompatImageView 
         setIndicator();
     }
 
-    private void setIndicator(){
+    private void setIndicator() {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(indicatorSize, indicatorSize);
         layoutParams.gravity = Gravity.CENTER_VERTICAL;
         layoutParams.setMargins(4, 0, 4, 0);
         setLayoutParams(layoutParams);
     }
 
-    public void onSelectedChange(boolean isSelected){
-        if(isSelected){
+    public void onSelectedChange(boolean isSelected) {
+        if (isSelected) {
             setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.indicator_selected, null));
-        }else{
+        } else {
             setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.indicator_unselected, null));
         }
     }

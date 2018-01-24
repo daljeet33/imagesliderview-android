@@ -7,13 +7,13 @@
     android:orientation="vertical"
     tools:context="com.example.daljeet.imagesliderview.MainActivity">
 
-        <com.example.imagesliderview.Views.SliderViewLayout
-            android:id="@+id/sliderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:indicatorSize="8dp"
-            app:showIndicator="true"
-            app:timeInterval="2000"
-            app:infiniteview="true"
-            app:showarrow="true"/>
+    <com.example.imagesliderview.Views.SliderViewLayout
+        android:id="@+id/sliderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:indicatorSize="8dp"
+        app:infiniteview="true"
+        app:showIndicator="true"
+        app:showarrow="false"
+        app:timeInterval="2000" />
 </LinearLayout>
